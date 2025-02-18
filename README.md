@@ -1,6 +1,7 @@
 # Awesome-schedulers
-Records of relevant papers read during the doctoral period at Chongqing University.
-
+Records of some awesome resource scheduling papers.
+I am a Phd in Chongqing University and my research topic is MLsys, resource scheduler(Job & Communication), computer vision(semi-supervised Learning).
+Any problems will be accepted!
 
 ## Resource Scheduler
 ### Scheduling for DL Training Workloads
