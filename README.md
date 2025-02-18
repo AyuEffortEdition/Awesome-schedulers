@@ -3,7 +3,7 @@ Records of some awesome resource scheduling papers.
 
 I am a Phd in Chongqing University and my research topic is MLsys, resource scheduler(Job & Communication), computer vision(semi-supervised Learning).
 
-
+😎 I am actively maintaining this list. 💪
 ## Resource Scheduler
 ### Scheduling for DL Training Workloads
 #### 2024
