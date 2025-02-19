@@ -32,7 +32,13 @@ I am a Phd in Chongqing University and my research topic is MLsys, resource sche
 
 #### 2021
 * Pollux: Co-adaptive Cluster Scheduling for Goodput-Optimized Deep Learning (OSDI 2021) [[Paper](https://www.usenix.org/conference/osdi21/presentation/qiao)] [[Code](https://github.com/petuum/adaptdl)] 
+<details>  
+  <summary>Personal Notes</summary>  
+  
+    test
+    
 
+</details> 
 #### 2020
 * KungFu: Making Training in Distributed Machine Learning Adaptive (OSDI 2020) [[Paper](https://www.usenix.org/conference/osdi20/presentation/mai)]
   
