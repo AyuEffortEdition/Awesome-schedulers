@@ -33,7 +33,7 @@ I am a Phd in Chongqing University and my research topic is MLsys, resource sche
 
 #### 2021
 * Pollux: Co-adaptive Cluster Scheduling for Goodput-Optimized Deep Learning (OSDI 2021) [[Paper](https://www.usenix.org/conference/osdi21/presentation/qiao)] [[Code](https://github.com/petuum/adaptdl)] 
-+ <details>  
+- <details>  
   <summary>[Personal Notes]</summary>  
   
     # Problem Statement  
@@ -53,7 +53,7 @@ I am a Phd in Chongqing University and my research topic is MLsys, resource sche
   </details> 
 
 * MAPA: Multi-Accelerator Pattern Allocation Policy for Multi-Tenant GPU Servers (SC 2021)[[Paper](https://dl.acm.org/doi/pdf/10.1145/3458817.3480853)]  [[Code](https://github.com/socal-ucr/MAPA)] 
-+ <details>
+- <details>
     <summary>[Personal Notes]</summary> 
     # Problem Statement 
     The existing resource allocation strategies are unable to effectively address the communication patterns between complex topological interconnections and diverse ML workloads, resulting in fragmentation.
