@@ -93,3 +93,33 @@ I am a Phd in Chongqing University and my research topic is MLsys, resource sche
 * Optimus: An Efficient Dynamic Resource Scheduler for Deep Learning Clusters (EuroSys 2018) [[Paper](https://dl.acm.org/doi/10.1145/3190508.3190517) ][[Code](https://github.com/pengyanghua/optimus)]
 
 
+
+## Communication Scheduler
+### Collective Communication 
+* Revisiting the Time Cost Model of AllReduce (arXiv 2024)[[Paper](https://arxiv.org/pdf/2409.04202) ]
+  - <details>  
+    <summary>[Personal Notes]</summary>  
+  
+      #  Background
+      - AllReduce is a key communication primitive widely used in fields such as distributed machine learning (DML) and HPC, and its performance directly affects overall computational efficiency. The traditional (𝛼, 𝛽, 𝛾) model includes startup latency (𝛼), communication cost (𝛽), and computational cost (𝛾), but with the evolution of hardware and network technology, this model is difficult to accurately describe the actual time overhead of AllReduce in modern high-performance clusters.
+      - (𝛼, 𝛽, 𝛾) Model: TimeCost=A×α+B×β+C×γ
+        - **𝛼** represents the **startup** or **fixed delay cost**, including fixed overheads such as communication initialization and link latency.
+        - **𝛽** represents the **communication cost**, which is related to the link bandwidth, i.e., the cost per unit of data transmission.
+        - **𝛾** represents the **computation cost**, which is the computational overhead of processing aggregation operations (such as summation, maximum value retrieval, etc.), and is related to the computational capability of the processor.
+      - Collective Communication Foundation
+        - **Parameter Server**: Each processor aggregates data to a central node (parameter server), which performs the reduction operation and then broadcasts the result back to all nodes. **This method is usually less efficient because the central node is prone to become a bottleneck, and the resources of other nodes are not fully utilized.**
+        - **Ring-Allreduce: (reduceScatter-allGather):** The data is divided into multiple blocks, and each node is responsible for the reduction of its local data portion only in the first phase (ReduceScatter). Subsequently, in the second phase (AllGather), each node exchanges its reduced data blocks with other nodes to complete the global reduction operation.
+        - **Recursive Halving and Doubling (RHD):** In each step, processors are paired off, and they exchange half of their data to complete local reduction. The doubling phase uses a pairing strategy similar to recursive halving, but at this point, the data blocks exchanged in each step keep doubling until each processor has the complete reduced result. That is, the doubling phase propagates the reduction results in reverse, and it also requires log₂(N) steps.
+      # Motivations
+      - Traditional models are insufficient to meet modern cluster demands:
+        - **Increased memory access and NIC bandwidth** result in memory access overhead that is no longer negligible.
+        - **Incast issues caused by high concurrency communication** (a large number of nodes sending data to one or a few nodes simultaneously) lead to the target nodes being overwhelmed, which is due to network congestion or switch buffer being rapidly filled, resulting in significant increased latency.
+      - Accurate Modeling to Guide Algorithm Design Issues:
+        - **Constructing heuristic AllReduce scheme generation methods for tree topology**. This is because it is an NP-hard problem under any topology.
+        - The generation method based on GenModel – namely **GenTree**, is a heuristic algorithm, mainly designed for automatically generating efficient AllReduce plans under tree topology, rather than simply selecting an existing AllReduce method. It generates communication plans that adapt to the current cluster characteristics by weighing the two indicators of incast and memory access, thereby improving overall communication efficiency.
+      ## Theoretical Foundation Framework
+      - The (𝛼, 𝛽, 𝛾) model adopted by the cutting-edge work divides the AllReduce process into three parts: initiation, communication, and computation. 
+      - Based on a large number of experiments, two new cost items are added to the original model:
+        - Incast Cost Item: Reflects the delay caused by data aggregation (incast) in large-scale concurrent communication. 
+        - Memory Access Cost Item: As the network speed increases, the cost of memory reading and writing during the execution of computational tasks by computing devices (CPU/GPU) gradually becomes an indispensable factor.
+    </details> 
