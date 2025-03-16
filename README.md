@@ -17,7 +17,112 @@ I am a Phd in Chongqing University and my research topic is MLsys, resource sche
 * GPU Cluster Scheduling for Network-Sensitive Deep Learning (arXiv 2024) [[arXiv](https://arxiv.org/abs/2401.16492)]
 
 * Sia: Heterogeneity-aware, goodput-optimized ML-cluster scheduling (SOSP 2023) [[Paper](https://dl.acm.org/doi/10.1145/3600006.3613175)]
+  - <details>  
+    <summary>[Personal Notes]</summary>
+    
+    
+# Background
+Sia categorizes the existing schedulers as follows:
 
+(1) Heterogeneity-aware Schedulers: Focus on the heterogeneity of resources, considering the computational performance differences between different GPUs.
+
+(2) Adaptivity-aware Schedulers: **Focus on the elasticity of tasks**, which can adjust the number of GPU allocations according to the resource status of the cluster, such as dynamically adjusting the mini-batch size, automatically increasing or decreasing GPU resources.
+
+(3) Traditional Static Schedulers: Adopt **fixed resource allocation strategies**, such as specifying GPU requirements at the time of task submission, which cannot be adjusted adaptively according to the cluster load.
+
+The existing scheduler cannot optimize simultaneously:
+
+1) Utilization of heterogeneous GPU resources
+
+2) Dynamic adaptation capability of tasks
+
+3) Overall throughput/goodput
+
+For example:
+
+Gavel, when the load is high, due to the inability to adjust the scale of tasks, can lead to inefficient utilization of GPU resources.
+
+Pollux cannot effectively match tasks with GPUs in heterogeneous clusters, causing some tasks to run on **inappropriate GPUs**, affecting training efficiency.
+    
+# Innovations  
+(1) At the same time, optimize GPU resource heterogeneity and task elasticity
+
+(2) Low-overhead Throughput Modeling Method
+
+- Existing schedulers require a large amount of experimental data to measure the throughput of different tasks on different GPU resources before scheduling, which leads to:
+
+  - **High data collection costs** (requires running a large number of benchmark tests in advance).
+
+  - **Low scheduling efficiency for new tasks** (requires waiting for sufficient test data).
+
+  The throughput of GPU tasks is affected by various factors such as **GPU type, the computational characteristics of the task itself, and the number of GPUs**. Traditional methods need to **completely traverse all possible GPU combinations**, resulting in excessive computational overhead.
+
+**Sia adopts a "Bootstrap Throughput Modeling" method**, with the core idea being:
+
+- When a task is submitted, **only the minimum test is performed on a single GPU** to obtain basic throughput data.
+
+- A simple **ratio model** (ratio model) is used to predict the throughput on different GPU types:
+
+  - For example, if the throughput of a task on a T4 GPU is X, and the standard throughput on an A100 is 2X, it is inferred that the throughput on the A100 is also 2X.
+
+(3) Introduction of Integer Linear Programming (ILP) Scheduling Optimization Framework
+
+Most existing methods adopt **heuristic scheduling algorithms**, leading to:
+
+- **Too large search space**: For a large GPU cluster, there may be thousands or even tens of thousands of GPU task allocation schemes, and simple heuristic search is difficult to find the global optimal solution.
+
+- **Poor adaptability**: When task load changes dynamically, heuristic methods cannot quickly adjust the matching of tasks and resources, leading to a decrease in scheduling efficiency.
+
+Pollux uses **Genetic Algorithm (GA)** for task allocation, but this method has **high computational cost and poor scalability**, and when the GPU scale reaches 1000+, the scheduling time may exceed 10 minutes.
+
+Integer Linear Programming (ILP) is more suitable for complex GPU task scheduling problems than traditional heuristic methods.
+
+- **Sia uses ILP for global optimization, which can optimize multiple factors simultaneously, such as task throughput, GPU type matching, and task fairness.**
+
+- ILP ensures through constraint conditions:
+
+  - **Tasks are not allocated to overloaded GPUs**.
+
+  - **The allocation of GPU resources for tasks can be dynamically adjusted according to the load**.
+
+  - **Resource allocation between different tasks is fair** (i.e., no task will occupy a large amount of GPU resources for a long time).
+
+- **Sia's ILP scheduling method can complete optimization calculations in a few seconds, allowing it to scale to large clusters with 2000+ GPUs.**
+
+
+(4) Scalable Phased Scheduling Strategy
+
+Existing schedulers typically use **single-phase scheduling**, which means deciding the GPU allocation for all tasks simultaneously in each scheduling round. However, this method has the following issues:
+
+- **High computational cost**: In large-scale GPU clusters, each scheduling round requires searching through a large number of GPU combinations, resulting in high computational complexity.
+
+- **Poor adaptability**: During task execution, GPU resources may change dynamically (such as task completion or new tasks joining), and single-phase scheduling cannot adjust quickly.
+
+- **GPU resource fragmentation**: Tasks may be randomly assigned to GPUs, leading to underutilization of GPU resources.
+
+**Sia adopts a "two-phase scheduling" strategy:**
+
+1. **Resource Allocation**: Decide the GPU type and quantity for tasks first to maximize throughput.
+
+2. **Resource Mapping**: Then, based on the allocation results, find the optimal GPU combination in the physical cluster to reduce GPU migration costs.
+
+(5) Optimizing Fairness and GPU Task Scheduling Strategy
+
+Existing methods (such as Shockwave, Pollux) cannot achieve the best balance between fairness and throughput:
+
+- Shockwave emphasizes fairness too much, leading to a decrease in overall throughput.
+
+- Pollux tends to maximize throughput, resulting in some tasks not receiving GPU resources for a long time.
+
+- **Sia achieves scheduling optimization through "Fairness Parameter":**
+
+  - **The GPU allocation for tasks can be adjusted according to different priorities**, ensuring that all tasks have a chance to obtain GPU resources.
+
+  - **The scheduler can adjust the fairness parameter to find the best balance point between throughput and fairness**.
+
+  - **Compared to Pollux, Sia increases throughput while reducing the waiting time for tasks, improving the overall efficiency of the cluster.**
+
+    </details> 
 
 * Lyra: Elastic Scheduling for Deep Learning Clusters (EuroSys 2023) [[Paper](https://dl.acm.org/doi/10.1145/3552326.3587445)]
 
@@ -96,6 +201,7 @@ I am a Phd in Chongqing University and my research topic is MLsys, resource sche
 
 ## Communication Scheduler
 ### Collective Communication 
+#### 2024
 * Revisiting the Time Cost Model of AllReduce (arXiv 2024)[[Paper](https://arxiv.org/pdf/2409.04202) ]
   - <details>  
     <summary>[Personal Notes]</summary>  
