@@ -200,7 +200,7 @@ I am a Phd in Chongqing University and my research topic is MLsys, resource sche
 ## Communication Scheduler
 ### Collective Communication 
 #### 2024
-* Revisiting the Time Cost Model of AllReduce (arXiv 2024)[[Paper](https://arxiv.org/pdf/2409.04202) ]
+* Revisiting the Time Cost Model of AllReduce (arXiv 2024)[[Paper](https://arxiv.org/pdf/2409.04202) ][[Code](https://anonymous.4open.science/r/AllreduceBenchmark-StreamEmulator-CCF4)]
   - <details>  
     <summary>[Personal Notes]</summary>  
   
