@@ -133,6 +133,8 @@ I am a Phd in Chongqing University and my research topic is MLsys, resource sche
 #### 2022
 * Looking Beyond GPUs for DNN Scheduling on Multi-Tenant Clusters (OSDI 2022) [[Paper](https://www.usenix.org/conference/osdi22/presentation/mohan)] [[Code](https://github.com/msr-fiddle/synergy) ]
 
+* Multi-Resource Interleaving for Deep Learning Training (SIGCOMM 2022) [[Paper](http://yibozhu.com/doc/muri-sigcomm22.pdf)] [[Code](https://github.com/Rivendile/Muri)]
+
 #### 2021
 * Pollux: Co-adaptive Cluster Scheduling for Goodput-Optimized Deep Learning (OSDI 2021) [[Paper](https://www.usenix.org/conference/osdi21/presentation/qiao)] [[Code](https://github.com/petuum/adaptdl)] 
   - <details>  
