@@ -188,6 +188,29 @@ I am a Phd in Chongqing University and my research topic is MLsys, resource sche
   
 * Themis: Fair and Efficient GPU Cluster Scheduling (EuroSys 2020) [[Paper](https://www.usenix.org/conference/nsdi20/presentation/mahajan)]
 
+* AntMan: Dynamic Scaling on GPU Clusters for Deep Learning [[Paper](https://www.usenix.org/system/files/osdi20-xiao.pdf)]
+  - <details>
+    <summary>[Personal Notes]</summary> 
+    
+    I got a scholar's summary of this paper on Zhihu, and I would like to share it with you here. [[Summary](https://zhuanlan.zhihu.com/p/451238714)]
+    Especially Section 2.3, I will quote the content here.
+    
+    # Challenges & Solutions
+    The design of the Local Coordinator incorporates considerations for dynamic allocation of display memory and computing resources, mainly addressing the following three issues:
+    
+    - Q1:How to ensure the performance of the resource-guarantee tasks?
+    
+    - A1: For the first question, AntMan's approach is to first ensure the stable execution of the resource-guarantee tasks; then allocate GPU memory and computational units to opportunistic tasks; finally, observe whether the performance of the resource-guarantee tasks has been affected. The method to judge whether the performance has been affected is to observe the execution time of the mini-batch.
+    
+    - Q2:How to handle the surge in demand for resource-guarantee tasks?
+    
+    - A2: If it is a memory mutation situation, first use host memory as temporary storage to reduce the use of GPU memory for opportunistic tasks; then increase the GPU memory allocation for resource-guarantee tasks. The same method applies to a surge in demand for computational units.
+    
+    - Q3:How to use a greedy method to maximize the performance of opportunistic tasks?
+
+    - A3: The scenario of the last question is when multi-GPU tasks are waiting for GPU resources, the situation of GPU idle resources that have already been allocated. For this problem, AntMan's solution is to use a greedy algorithm to maximize the efficiency of GPU VRAM usage. "Figure 10" shows the practical basis for using a greedy algorithm—the performance gap perceived in terms of VRAM limitations of different models is very large, for example, reducing the SR model's 90% VRAM allocation only results in a 25% performance loss, while reducing the ResNet model's 10% VRAM causes a 60% performance loss. Therefore, AntMan prioritizes allocating GPUs to tasks that can improve performance in the opportunistic task competition scenario.
+    </details> 
+    
 #### 2019
 * Tiresias: A GPU Cluster Manager for Distributed Deep Learning (NSDI 2019) [[Paper](https://www.usenix.org/conference/nsdi19/presentation/gu)] [[Code](https://github.com/SymbioticLab/Tiresias)] Simulator
 
