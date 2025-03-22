@@ -1,5 +1,5 @@
 # Awesome-schedulers
-Records of some awesome resource scheduling papers.
+Records of some awesome resource scheduling papers.🚀🚀🚀
 
 I am a Phd in Chongqing University and my research topic is MLsys, resource scheduler(Job & Communication), computer vision(semi-supervised Learning).
 
@@ -7,7 +7,6 @@ I am a Phd in Chongqing University and my research topic is MLsys, resource sche
 ## Resource Scheduler
 ### Scheduling for DL Training Workloads
 #### 2024
-* CASSINI: Network-Aware Job Scheduling in Machine Learning Clusters(NSDI 2024) [[Paper](https://www.usenix.org/conference/nsdi24/presentation/rajasekaran) ]
 
 * Blox: A Modular Toolkit for Deep Learning Schedulers (EuroSys 2024) [[arXiv](https://arxiv.org/pdf/2312.12621)]  [[Code](https://github.com/msr-fiddle/blox)]
 
@@ -223,6 +222,35 @@ I am a Phd in Chongqing University and my research topic is MLsys, resource sche
 
 
 ## Communication Scheduler
+### Inter-job Communication Contention
+#### 2024
+* CASSINI: Network-Aware Job Scheduling in Machine Learning Clusters(NSDI 2024) [[Paper](https://www.usenix.org/conference/nsdi24/presentation/rajasekaran) ]
+  - <details>
+    <summary>[Personal Notes]</summary> 
+    
+    # Background
+    In large-scale GPU training tasks, **communication overhead accounts for a significant proportion of the total training time**. However, existing schedulers (such as Themis and Pollux) mainly focus on the allocation of computing resources, while **ignoring the optimization of network communication resources**.
+    
+    # Challenges
+    1. Current machine learning schedulers ignore the communication patterns between jobs when allocating GPU tasks, which leads to communication bottlenecks affecting training speed.
+
+    2. How to optimize the network scheduling of distributed training jobs without modifying the underlying network protocols (such as ECN marking and congestion control)?
+
+    3. How to automatically adjust the time shift (Time Shift) of jobs so that the computation and communication phases of multiple jobs overlap, thereby reducing network congestion?
+
+    4. How to extend this method to be applicable to different machine learning models (such as VGG, ResNet, BERT, GPT-3, etc.) and different parallel training strategies (data parallelism, model parallelism, mixed parallelism)?
+    
+    # Motivation
+    - **Geometric abstraction**:
+      - The researchers proposed a "time loop" geometric model that maps the communication period of a job to a circle, so that the communication requirements of each iteration can be optimized through the rotation angle to minimize overlap.
+      - By optimizing the Time-Shift of jobs, CASSINI makes the calculation and communication phases of multiple jobs staggered in time, improving network utilization.
+    - **Affinity Graph**:
+      - The researchers constructed a **Bipartite Graph**, in which one set of vertices represents jobs, the other set of vertices represents network links, and the weights of edges represent the communication load of jobs on the link.
+      - By traversing the graph, CASSINI calculates the **optimal time offset** for all jobs, ensuring that jobs on the same network link can stagger communication phases to the greatest extent possible.
+    - **Optimization method**:
+      - The researchers proposed an **optimization model** to calculate the **optimal rotation angle** of the job, thereby determining the time offset value, so that the job's communication mode on the shared link achieves optimal interleaving
+      </details> 
+
 ### Collective Communication 
 #### 2024
 * Revisiting the Time Cost Model of AllReduce (arXiv 2024)[[Paper](https://arxiv.org/pdf/2409.04202) ][[Code](https://anonymous.4open.science/r/AllreduceBenchmark-StreamEmulator-CCF4)]
